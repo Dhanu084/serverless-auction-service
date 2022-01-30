@@ -50,8 +50,13 @@ functions:
       - http:
           method: PATCH
           path: /auction/{auctionId}/bid
+  processAuctions:
+    handler: src/handlers/processAuctions.handler
+    events:
+      - schedule: rate(1 day)
 
 custom:
   AuctionsTable:
     name: !Ref AuctionsTable
     arn: !GetAtt AuctionsTable.Arn
+  linting: false
