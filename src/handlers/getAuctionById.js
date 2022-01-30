@@ -9,11 +9,12 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getAuctionById(event, context) {
   console.log(event);
+  const id = event.pathParameters.auctionId;
   const params = {
     TableName: process.env.AUCTIONS_TABLE_NAME,
     Key: {
-      id: event.pathParameters.auctionId,
-    },
+      id
+    }
   };
   let auction;
   try {
@@ -25,8 +26,10 @@ async function getAuctionById(event, context) {
   }
 
   const response = {
-    statusCode: 200,
-    body: JSON.stringify(auction),
+    statusCode: auction ? 200 : 404,
+    body: auction
+      ? JSON.stringify(auction)
+      : `Auction with id ${id} is not found`
   };
 
   return response;

@@ -24,7 +24,7 @@ async function deleteAuction(event, context) {
   }
 
   const response = {
-    statusCode: 200
+    statusCode: 200 
   };
 
   return response;
