@@ -8,6 +8,7 @@ async function placeBid(event, context) {
   console.log(event);
   const { auctionId } = event.pathParameters;
   const { amount } = event.body;
+
   const currentAuction = await getAuction(auctionId);
   if (!currentAuction) {
     throw new createError.NotFound(`Auction with id ${auctionId} is not found`);
@@ -17,6 +18,10 @@ async function placeBid(event, context) {
       "amount is lesser or equal to last placed bid"
     );
   }
+  if (currentAuction.status === "CLOSED") {
+    throw new createError.Forbidden("You cannot bid on closed auctions");
+  }
+
   const params = {
     TableName: process.env.AUCTIONS_TABLE_NAME,
     Key: {
