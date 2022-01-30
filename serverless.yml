@@ -38,6 +38,12 @@ functions:
       - http:
           method: GET
           path: /auction/{auctionId}
+  deleteAuction:
+    handler: src/handlers/deleteAuction.handler
+    events:
+      - http:
+          method: DELETE
+          path: /auction/{auctionId}
 
 custom:
   AuctionsTable:
